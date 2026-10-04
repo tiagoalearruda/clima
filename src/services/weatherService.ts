@@ -1,12 +1,12 @@
-export type GeocodingResult = {
+export interface GeocodingResult {
     name: string;
     country: string;
     latitude: number;
     longitude: number;
     timezone: string;
-};
+}
 
-export type CurrentWeather = {
+export interface CurrentWeather {
     temperature_2m?: number;
     apparent_temperature?: number;
     relative_humidity_2m?: number;
@@ -15,14 +15,14 @@ export type CurrentWeather = {
     wind_speed_10m?: number;
     wind_direction_10m?: number;
     is_day?: number;
-};
+}
 
-export type WeatherApiResponse = {
+export interface WeatherApiResponse {
     latitude?: number;
     longitude?: number;
     timezone?: string;
     current?: CurrentWeather;
-};
+}
 
 const OPEN_METEO_GEOCODING_URL = 'https://geocoding-api.open-meteo.com/v1/search';
 const OPEN_METEO_FORECAST_URL = 'https://api.open-meteo.com/v1/forecast';
