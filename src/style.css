@@ -78,11 +78,23 @@ input {
   padding: 16px 20px;
   font-weight: 700;
   cursor: pointer;
-  transition: filter 0.2s ease;
+  transition: filter 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
 }
 
-.search-form button:hover {
+.search-form button:hover:not(:disabled) {
   filter: brightness(1.06);
+}
+
+.search-form button:focus-visible,
+.search-form input:focus-visible {
+  outline: 3px solid rgba(130, 87, 229, 0.25);
+  outline-offset: 2px;
+}
+
+.search-form button:disabled {
+  opacity: 0.7;
+  cursor: wait;
+  transform: scale(0.99);
 }
 
 .weather-content {

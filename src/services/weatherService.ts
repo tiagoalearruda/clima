@@ -1,6 +1,7 @@
 export interface GeocodingResult {
     name: string;
     country: string;
+    country_code?: string;
     latitude: number;
     longitude: number;
     timezone: string;
@@ -22,14 +23,23 @@ export interface WeatherApiResponse {
     longitude?: number;
     timezone?: string;
     current?: CurrentWeather;
+    daily?: {
+        showers_sum?: number[];
+    };
 }
 
 const OPEN_METEO_GEOCODING_URL = 'https://geocoding-api.open-meteo.com/v1/search';
 const OPEN_METEO_FORECAST_URL = 'https://api.open-meteo.com/v1/forecast';
 
 export async function searchCity(city: string): Promise<GeocodingResult | null> {
+    const normalizedCity = city.trim();
+
+    if (!normalizedCity) {
+        return null;
+    }
+
     const params = new URLSearchParams({
-        name: city,
+        name: normalizedCity,
         count: '1',
         language: 'pt',
         format: 'json',
@@ -42,7 +52,13 @@ export async function searchCity(city: string): Promise<GeocodingResult | null> 
     }
 
     const data = (await response.json()) as { results?: GeocodingResult[] };
-    return data.results?.[0] ?? null;
+    const location = data.results?.[0];
+
+    if (!location || !location.name || typeof location.latitude !== 'number' || typeof location.longitude !== 'number' || !location.timezone) {
+        return null;
+    }
+
+    return location;
 }
 
 export async function getCityWeather(
@@ -50,12 +66,17 @@ export async function getCityWeather(
     longitude: number,
     timezone: string,
 ): Promise<WeatherApiResponse> {
+    if (!Number.isFinite(latitude) || !Number.isFinite(longitude) || !timezone?.trim()) {
+        throw new Error('Dados meteorológicos indisponíveis para esta cidade.');
+    }
+
     const params = new URLSearchParams({
         latitude: latitude.toString(),
         longitude: longitude.toString(),
-        timezone,
+        timezone: timezone.trim(),
         current:
             'temperature_2m,apparent_temperature,relative_humidity_2m,precipitation_probability,weather_code,wind_speed_10m,wind_direction_10m,is_day',
+        daily: 'showers_sum',
     });
 
     const response = await fetch(`${OPEN_METEO_FORECAST_URL}?${params.toString()}`);
