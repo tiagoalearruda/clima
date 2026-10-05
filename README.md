@@ -2,7 +2,7 @@
 
 Aplicação web para consultar o clima de cidades em tempo real, com interface responsiva e fácil de usar.
 
-## 🧭 Visão geral
+## 🧭 Visão geral.
 
 O projeto foi desenvolvido com TypeScript + Vite e permite:
 
