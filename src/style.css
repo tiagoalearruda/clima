@@ -1,14 +1,46 @@
 :root {
-  --page-bg: #1f1f22;
-  --panel-bg: #ffffff;
-  --panel-alt: #f3f4f6;
-  --panel-soft: #e9ebee;
+  --page-bg: linear-gradient(135deg, #fef7bb 0%, #f8d96d 35%, #f4c778 100%);
+  --panel-bg: rgba(255, 255, 255, 0.82);
+  --panel-alt: rgba(255, 255, 255, 0.68);
+  --panel-soft: rgba(255, 255, 255, 0.76);
   --text-main: #111827;
-  --text-soft: #6b7280;
+  --text-soft: #5f6470;
   --accent: #8257e5;
   --shadow: rgba(17, 24, 39, 0.12);
   --border: rgba(17, 24, 39, 0.08);
   --font-main: 'Inter', 'Segoe UI', sans-serif;
+}
+
+body.theme-sunny {
+  --page-bg: linear-gradient(135deg, #fff5b1 0%, #f7d766 35%, #f4b15d 100%);
+  --panel-bg: rgba(255, 255, 255, 0.8);
+  --panel-alt: rgba(255, 251, 221, 0.82);
+  --panel-soft: rgba(255, 239, 175, 0.9);
+  --text-main: #1f2937;
+  --text-soft: #5b4d23;
+  --accent: #f59e0b;
+}
+
+body.theme-cloudy {
+  --page-bg: linear-gradient(135deg, #dfe6eb 0%, #b8c1ca 35%, #9aa7b5 100%);
+  --panel-bg: rgba(246, 248, 250, 0.78);
+  --panel-alt: rgba(236, 239, 243, 0.8);
+  --panel-soft: rgba(224, 227, 232, 0.9);
+  --text-main: #1f2937;
+  --text-soft: #4b5563;
+  --accent: #5b7c96;
+}
+
+body.theme-night {
+  --page-bg: radial-gradient(circle at top, #172338 0%, #0d1627 35%, #030711 100%);
+  --panel-bg: rgba(15, 23, 42, 0.8);
+  --panel-alt: rgba(17, 24, 39, 0.88);
+  --panel-soft: rgba(30, 41, 59, 0.9);
+  --text-main: #edf4ff;
+  --text-soft: #b7c4d8;
+  --accent: #8da8ff;
+  --shadow: rgba(2, 6, 23, 0.5);
+  --border: rgba(148, 163, 184, 0.18);
 }
 
 * {
@@ -18,6 +50,7 @@
 }
 
 body {
+  position: relative;
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -26,6 +59,62 @@ body {
   color: var(--text-main);
   font-family: var(--font-main);
   padding: 20px;
+  transition: background 0.35s ease, color 0.35s ease;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background-image:
+    radial-gradient(circle, rgba(255, 255, 255, 0.95) 1.3px, transparent 1.8px),
+    radial-gradient(circle, rgba(255, 255, 255, 0.9) 1.2px, transparent 1.8px),
+    radial-gradient(circle, rgba(255, 255, 255, 0.8) 1.1px, transparent 1.7px),
+    radial-gradient(circle, rgba(255, 255, 255, 0.8) 1.3px, transparent 1.9px),
+    radial-gradient(circle, rgba(255, 255, 255, 0.7) 1px, transparent 1.6px),
+    radial-gradient(circle, rgba(255, 255, 255, 0.9) 1.1px, transparent 1.8px);
+  background-position: 10% 18%, 25% 28%, 42% 16%, 65% 24%, 78% 14%, 88% 32%;
+  background-repeat: no-repeat;
+  transition: opacity 0.35s ease;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+body.theme-sunny::after {
+  opacity: 1;
+  background:
+    radial-gradient(circle at 78% 20%, rgba(255, 255, 255, 0.9) 0%, rgba(255, 245, 170, 0.8) 10%, rgba(255, 214, 105, 0.45) 18%, transparent 30%),
+    radial-gradient(circle at 16% 22%, rgba(255, 255, 255, 0.22) 0%, transparent 18%),
+    radial-gradient(circle at 28% 30%, rgba(255, 255, 255, 0.18) 0%, transparent 19%);
+}
+
+body.theme-cloudy::after {
+  opacity: 1;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.55) 12%, transparent 20%),
+    radial-gradient(circle at 33% 22%, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.4) 13%, transparent 22%),
+    radial-gradient(circle at 68% 20%, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.38) 12%, transparent 20%),
+    radial-gradient(circle at 80% 26%, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.4) 12%, transparent 21%);
+}
+
+body.theme-night::before {
+  opacity: 1;
+}
+
+body.theme-night::after {
+  opacity: 1;
+  background:
+    radial-gradient(circle at 70% 20%, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.28) 7%, transparent 12%),
+    radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.3) 0%, transparent 8%);
 }
 
 button,
@@ -34,6 +123,8 @@ input {
 }
 
 #app {
+  position: relative;
+  z-index: 1;
   width: 100%;
   max-width: 800px;
 }
@@ -43,6 +134,8 @@ input {
   border-radius: 28px;
   box-shadow: 0 28px 60px var(--shadow);
   overflow: hidden;
+  border: 1px solid var(--border);
+  backdrop-filter: blur(12px);
 }
 
 .search-header {
@@ -115,6 +208,7 @@ input {
   border-radius: 22px;
   padding: 36px 20px;
   color: var(--text-main);
+  transition: background 0.35s ease, color 0.35s ease;
 }
 
 .empty-state__label {
@@ -151,10 +245,11 @@ input {
   background: var(--panel-alt);
   border-radius: 22px;
   overflow: hidden;
+  transition: background 0.35s ease;
 }
 
 .weather-sidebar {
-  background: #f5f5f5;
+  background: rgba(255, 255, 255, 0.18);
   padding: 28px 20px;
 }
 
@@ -217,7 +312,7 @@ input {
 }
 
 .stat-card {
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.7);
   border: 1px solid var(--border);
   border-radius: 18px;
   padding: 18px 16px;
@@ -249,205 +344,5 @@ input {
 
   .weather-sidebar {
     padding: 28px 24px;
-  }
-}
-
-.counter {
-  font-size: 16px;
-  padding: 5px 10px;
-  border-radius: 5px;
-  color: var(--accent);
-  background: var(--accent-bg);
-  border: 2px solid transparent;
-  transition: border-color 0.3s;
-  margin-bottom: 24px;
-
-  &:hover {
-    border-color: var(--accent-border);
-  }
-
-  &:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-  }
-}
-
-.hero {
-  position: relative;
-
-  .base,
-  .framework,
-  .vite {
-    inset-inline: 0;
-    margin: 0 auto;
-  }
-
-  .base {
-    width: 170px;
-    position: relative;
-    z-index: 0;
-  }
-
-  .framework,
-  .vite {
-    position: absolute;
-  }
-
-  .framework {
-    z-index: 1;
-    top: 34px;
-    height: 28px;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(44deg) rotateY(39deg) scale(1.4);
-  }
-
-  .vite {
-    z-index: 0;
-    top: 107px;
-    height: 26px;
-    width: auto;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg) scale(0.8);
-  }
-}
-
-#app {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
-
-#center {
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-  place-content: center;
-  place-items: center;
-  flex-grow: 1;
-
-  @media (max-width: 1024px) {
-    padding: 32px 20px 24px;
-    gap: 18px;
-  }
-}
-
-#next-steps {
-  display: flex;
-  border-top: 1px solid var(--border);
-  text-align: left;
-
-  &>div {
-    flex: 1 1 0;
-    padding: 32px;
-
-    @media (max-width: 1024px) {
-      padding: 24px 20px;
-    }
-  }
-
-  .icon {
-    margin-bottom: 16px;
-    width: 22px;
-    height: 22px;
-  }
-
-  @media (max-width: 1024px) {
-    flex-direction: column;
-    text-align: center;
-  }
-}
-
-#docs {
-  border-right: 1px solid var(--border);
-
-  @media (max-width: 1024px) {
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-  }
-}
-
-#next-steps ul {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  gap: 8px;
-  margin: 32px 0 0;
-
-  .logo {
-    height: 18px;
-  }
-
-  a {
-    color: var(--text-h);
-    font-size: 16px;
-    border-radius: 6px;
-    background: var(--social-bg);
-    display: flex;
-    padding: 6px 12px;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    transition: box-shadow 0.3s;
-
-    &:hover {
-      box-shadow: var(--shadow);
-    }
-
-    .button-icon {
-      height: 18px;
-      width: 18px;
-    }
-  }
-
-  @media (max-width: 1024px) {
-    margin-top: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-
-    li {
-      flex: 1 1 calc(50% - 8px);
-    }
-
-    a {
-      width: 100%;
-      justify-content: center;
-      box-sizing: border-box;
-    }
-  }
-}
-
-#spacer {
-  height: 88px;
-  border-top: 1px solid var(--border);
-
-  @media (max-width: 1024px) {
-    height: 48px;
-  }
-}
-
-.ticks {
-  position: relative;
-  width: 100%;
-
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    top: -4.5px;
-    border: 5px solid transparent;
-  }
-
-  &::before {
-    left: 0;
-    border-left-color: var(--border);
-  }
-
-  &::after {
-    right: 0;
-    border-right-color: var(--border);
   }
 }

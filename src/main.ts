@@ -1,5 +1,6 @@
 import './style.css';
 import { getCityWeather, searchCity } from './services/weatherService';
+import { applyWeatherTheme } from './theme';
 import { mapWeatherCode } from './utils/weatherMapper';
 
 const STORAGE_KEY = 'clima:last-city';
@@ -74,6 +75,8 @@ function renderWeatherCard(
   const condition = mapWeatherCode(current.weather_code);
   const dayPhase = current.is_day === 1 ? 'Dia' : 'Noite';
   const countryLabel = countryCode ? `${country} • ${countryCode}` : country;
+
+  applyWeatherTheme(current.weather_code, current.is_day);
 
   const weatherContent = document.querySelector<HTMLDivElement>('#weather-content');
 
@@ -218,6 +221,8 @@ async function restoreLastSearch(): Promise<void> {
 }
 
 function mountApp(): void {
+  applyWeatherTheme(0, 1);
+
   app.innerHTML = `
     <div class="weather-app">
       <header class="search-header">
